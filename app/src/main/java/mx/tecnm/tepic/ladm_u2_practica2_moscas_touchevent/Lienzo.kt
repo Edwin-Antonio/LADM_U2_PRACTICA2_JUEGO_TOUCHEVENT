@@ -80,7 +80,7 @@ class objMovement(p:Lienzo) : Thread(){
         super.run()
         while (true){
             (0..49).forEach { //0..499
-                obj[it].moveBubble()
+                obj[it].moveImage()
             }
             pointer.principal.runOnUiThread{
                 pointer.invalidate() //Se vuelve a llamar al onDraw para repintar

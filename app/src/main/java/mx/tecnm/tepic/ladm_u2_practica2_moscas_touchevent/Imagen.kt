@@ -1,11 +1,8 @@
 package mx.tecnm.tepic.ladm_u2_practica2_moscas_touchevent
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
-import androidx.core.graphics.component1
-import java.util.*
 
 class Imagen (l:Lienzo) {
     var x = 0f
@@ -32,7 +29,7 @@ class Imagen (l:Lienzo) {
         }
     }
 
-    fun moveBubble(){
+    fun moveImage(){
         if (y>750 && dirY==true) { //Si el objeto ya llego hasta el piso en Y
             dirY=false
         }
