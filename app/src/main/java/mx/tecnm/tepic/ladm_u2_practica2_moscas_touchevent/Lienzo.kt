@@ -19,10 +19,10 @@ class Lienzo(act:MainActivity) : View(act) {
     override fun onDraw(c: Canvas) {
         super.onDraw(c)
 
-        val p = Paint()
+        // Fondo de la pantalla
         c.drawColor(Color.BLUE)
 
-        // Dibujar los copos de nieve  0..499
+        // Dibujar las imagenes  0..499
         (0..49).forEach {
             objThread.obj[it].paintImage(c)
         }
@@ -32,27 +32,34 @@ class Lienzo(act:MainActivity) : View(act) {
 
         //Información sobr el toque
         //Coordenadas del toque X,Y
-        //Accion = Presionar, Mover, levantar dedo
+        //Accion = Presionar
 
         //Opciones de las acciones
-        val accion = e.action
+        //val accion = e.action
 
-        when(accion){
+        when(e.action){
             MotionEvent.ACTION_DOWN ->{ // Estas acciones son solamente para cuando se este presionando la imagen
-
                 (0..49).forEach {
+                    if (objThread.obj[it].onArea(e.x, e.y)) {
+                        objThread.obj[it].invisible = true
+                        return true // El return true es para que salga de la estructura
+                    }
+                }
+                /*(0..49).forEach {
                     if (objThread.obj[it].onArea(e.x,e.y)){
                         pointer = objThread.obj[it]
                         pointer!!.invisible = true
                         return true // El return true es para que salga de la estructura
                     }
-                }
+                }*/
             }
+
+            //Regresa el puntero a null cuando levantamos el click
             MotionEvent.ACTION_UP ->{
                 pointer=null
             }
         }
-        invalidate()
+        invalidate() //Volver a repintar
         return true
     }
 
@@ -60,7 +67,7 @@ class Lienzo(act:MainActivity) : View(act) {
 
 class objMovement(p:Lienzo) : Thread(){
     var pointer = p
-    val obj = ArrayList<Imagen>()
+    val obj = ArrayList<Imagen>() //Arreglo de objetos Imagen
 
     init {
         (1..50).forEach {  //1..500
@@ -69,7 +76,7 @@ class objMovement(p:Lienzo) : Thread(){
         }
     }
 
-    override fun run() { //Indica el movimiento del copo
+    override fun run() { //Indica el movimiento de la imagen
         super.run()
         while (true){
             (0..49).forEach { //0..499
